@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>보상금 계산기</title>
+<style>
+:root{--bg:#f2f4f6;--card:#fff;--text:#191f28;--sub:#8b95a1;--fill:#f2f4f6;--line:#f2f4f6;--acc:#3182f6;--accbg:#e8f3ff;--red:#f04452;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101013;--card:#1c1c21;--text:#f2f4f6;--sub:#8b95a1;--fill:#2b2b32;--line:#2b2b32;--acc:#4593fc;--accbg:#1b2a40;--red:#ff6b77}}
+:root[data-theme="dark"]{--bg:#101013;--card:#1c1c21;--text:#f2f4f6;--sub:#8b95a1;--fill:#2b2b32;--line:#2b2b32;--acc:#4593fc;--accbg:#1b2a40;--red:#ff6b77}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Malgun Gothic",sans-serif;letter-spacing:-.01em}
+.wrap{max-width:480px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:26px;font-weight:700;margin:12px 4px 4px;letter-spacing:-.03em}
+.lead{color:var(--sub);font-size:14px;margin:0 4px 20px}
+.card{background:var(--card);border-radius:24px;padding:22px 20px;margin-bottom:12px}
+.hd{display:flex;align-items:center;gap:8px;margin-bottom:18px;position:relative}
+.hd h2{font-size:18px;font-weight:700;margin:0;letter-spacing:-.02em}
+.info{width:22px;height:22px;border-radius:50%;border:0;background:var(--fill);color:var(--sub);font-size:13px;font-weight:700;line-height:1;padding:0;cursor:pointer}
+.tip{display:none;position:absolute;top:34px;left:0;background:var(--text);color:var(--card);font-size:13px;padding:10px 14px;border-radius:12px;z-index:5;box-shadow:0 6px 20px rgba(0,0,0,.18)}
+.tip.on{display:block}
+.person{margin-bottom:18px}
+.ph{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.ph .nm{font-size:15px;font-weight:600}
+.ph .rs{font-size:14px;font-weight:600;color:var(--acc)}
+.pr{display:flex;align-items:center;gap:6px}
+input,select{height:50px;border:0;border-radius:14px;background:var(--fill);color:var(--text);font-size:17px;font-weight:600;font-family:inherit}
+input{min-width:0;padding:0 14px;text-align:right}
+input::placeholder{color:var(--sub);font-weight:400}
+input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-2px}
+.pr .pa{flex:1}
+.pr .py{flex:none;width:84px}
+.pr input{padding:0 10px}
+.x{color:var(--sub);font-size:15px}
+.u{color:var(--sub);font-size:14px;font-weight:500}
+.total{display:flex;justify-content:space-between;align-items:center;background:var(--accbg);border-radius:16px;padding:16px;margin-top:6px}
+.total span{font-size:14px;color:var(--sub);font-weight:500}
+.total b{font-size:20px;color:var(--acc);font-weight:700}
+.set{display:flex;justify-content:space-between;align-items:center;padding:6px 0}
+.set+.set{margin-top:10px}
+.set label{font-size:15px;font-weight:600}
+.set .ctl{display:flex;align-items:center;gap:8px}
+.set input{width:96px}
+select{width:108px;font-size:15px;padding:0 12px}
+.step{display:flex;align-items:center;gap:14px}
+.step button{width:40px;height:40px;border-radius:50%;border:0;background:var(--fill);color:var(--text);font-size:22px;line-height:1;cursor:pointer}
+.step b{min-width:40px;text-align:center;font-size:20px}
+.line{display:flex;justify-content:space-between;padding:9px 0;font-size:15px;color:var(--sub)}
+.line span:last-child{color:var(--text);font-weight:600}
+.line .neg{color:var(--red)}
+.sep{height:1px;background:var(--line);margin:8px 0}
+.fin{display:flex;justify-content:space-between;align-items:center;padding:10px 0 4px}
+.fin span:first-child{font-size:15px;font-weight:600}
+.fin b{font-size:20px;font-weight:700}
+.hero{margin-top:16px;background:var(--acc);color:#fff;border-radius:20px;padding:20px}
+.hero small{display:block;font-size:14px;opacity:.85;margin-bottom:6px}
+.hero .v{font-size:32px;font-weight:800;letter-spacing:-.03em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>보상금 계산기</h1>
+  <p class="lead">금액과 평수를 입력해 보세요</p>
+
+  <div class="card">
+    <div class="hd"><h2>금액 입력</h2><button class="info" id="info" type="button" aria-label="안내">!</button>
+      <div class="tip" id="tip">2024년 기준의 공시지가 금액을 입력합니다.</div></div>
+
+    <div class="person"><div class="ph"><span class="nm">남기</span><span class="rs" id="r1">0원</span></div>
+      <div class="pr"><span class="u">평당</span><input class="pa" id="a1" type="text" inputmode="numeric" placeholder="금액" value="3,629,752"><span class="u">원</span><span class="x">×</span><input class="py" id="p1" type="number" inputmode="decimal" placeholder="평수" value="273"><span class="u">평</span></div></div>
+    <div class="person"><div class="ph"><span class="nm">지은</span><span class="rs" id="r2">0원</span></div>
+      <div class="pr"><span class="u">평당</span><input class="pa" id="a2" type="text" inputmode="numeric" placeholder="금액" value="3,457,851"><span class="u">원</span><span class="x">×</span><input class="py" id="p2" type="number" inputmode="decimal" placeholder="평수" value="268"><span class="u">평</span></div></div>
+    <div class="person"><div class="ph"><span class="nm">지혜</span><span class="rs" id="r3">0원</span></div>
+      <div class="pr"><span class="u">평당</span><input class="pa" id="a3" type="text" inputmode="numeric" placeholder="금액" value="3,629,752"><span class="u">원</span><span class="x">×</span><input class="py" id="p3" type="number" inputmode="decimal" placeholder="평수" value="271"><span class="u">평</span></div></div>
+    <div class="person"><div class="ph"><span class="nm">공동명의</span><span class="rs" id="r4">0원</span></div>
+      <div class="pr"><span class="u">평당</span><input class="pa" id="a4" type="text" inputmode="numeric" placeholder="금액" value="4,462,810"><span class="u">원</span><span class="x">×</span><input class="py" id="p4" type="number" inputmode="decimal" placeholder="평수" value="171"><span class="u">평</span></div></div>
+
+    <div class="set"><label>배수</label>
+      <div class="step"><button id="mMinus" type="button">−</button><b id="mv">2</b><button id="mPlus" type="button">+</button></div></div>
+    <div class="total"><span>보상 원금</span><b id="is">0원</b></div>
+  </div>
+
+  <div class="card">
+    <div class="hd" style="margin-bottom:8px"><h2>정산 조건</h2></div>
+    <div class="set"><label for="tax">양도소득세</label>
+      <div class="ctl"><input id="tax" type="number" inputmode="decimal" value="30"><span class="u">%</span></div></div>
+    <div class="set"><label>인원</label>
+      <div class="step"><button id="minus" type="button">−</button><b id="n">3</b><button id="plus" type="button">+</button></div></div>
+  </div>
+
+  <div class="card">
+    <div class="hd" style="margin-bottom:8px"><h2>계산 결과</h2></div>
+    <div class="line"><span id="mLabel">보상 원금</span><span id="s1">0원</span></div>
+    <div class="line"><span id="taxLabel">양도소득세 (30%)</span><span id="s2" class="neg">0원</span></div>
+    <div class="sep"></div>
+    <div class="fin"><span>최종 금액</span><b id="s3">0원</b></div>
+    <div class="hero"><small id="perLabel">1인당 (3명)</small><div class="v" id="s4">0원</div></div>
+  </div>
+</div>
+<script>
+var n=3,m=2;
+function f(x){return Math.round(x).toLocaleString('ko-KR')+'원'}
+function calc(){
+  var sum=0;
+  [1,2,3,4].forEach(function(i){
+    var v=(parseFloat(document.getElementById('a'+i).value.replace(/,/g,''))||0)*(parseFloat(document.getElementById('p'+i).value)||0);
+    document.getElementById('r'+i).textContent=f(v);
+    sum+=v;
+  });
+  var t=parseFloat(document.getElementById('tax').value)||0;
+  var base=sum*m, tax=base*t/100, total=base-tax;
+  document.getElementById('is').textContent=f(base);
+  document.getElementById('mLabel').textContent='보상 원금'+(m!==1?' (×'+m+')':'');
+  document.getElementById('s1').textContent=f(base);
+  document.getElementById('taxLabel').textContent='양도소득세 ('+t+'%)';
+  document.getElementById('s2').textContent=(tax>0?'-':'')+f(tax);
+  document.getElementById('s3').textContent=f(total);
+  document.getElementById('perLabel').textContent='1인당 ('+n+'명)';
+  document.getElementById('s4').textContent=f(Math.ceil(total/n));
+  document.getElementById('n').textContent=n;
+  document.getElementById('mv').textContent=m;
+}
+document.querySelectorAll('input').forEach(function(e){e.addEventListener('input',calc)});
+function fmt(el){
+  var pos=el.selectionStart,v=el.value;
+  var before=v.slice(0,pos).replace(/\D/g,'').length;
+  var d=v.replace(/\D/g,'');
+  el.value=d?Number(d).toLocaleString('en-US'):'';
+  var c=0,i=0;
+  for(;i<el.value.length&&c<before;i++){if(/\d/.test(el.value[i]))c++}
+  el.setSelectionRange(i,i);
+}
+[1,2,3,4].forEach(function(k){document.getElementById('a'+k).addEventListener('input',function(){fmt(this)})});
+document.getElementById('minus').onclick=function(){if(n>1){n--;calc()}};
+document.getElementById('plus').onclick=function(){if(n<3){n++;calc()}};
+document.getElementById('info').onclick=function(e){e.stopPropagation();document.getElementById('tip').classList.toggle('on')};
+document.addEventListener('click',function(){document.getElementById('tip').classList.remove('on')});
+document.getElementById('mMinus').onclick=function(){if(m>1){m-=0.5;calc()}};
+document.getElementById('mPlus').onclick=function(){if(m<3){m+=0.5;calc()}};
+calc();
+</script>
+</body>
+</html>
