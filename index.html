@@ -100,7 +100,8 @@ select{width:108px;font-size:15px;padding:0 12px}
     <div class="line"><span id="mLabel">보상 원금</span><span id="s1">0원</span></div>
     <div class="line"><span id="taxLabel">양도소득세 (30%)</span><span id="s2" class="neg">0원</span></div>
     <div class="sep"></div>
-    <div class="fin"><span>최종 금액</span><b id="s3">0원</b></div>
+    <div class="fin"><div class="lb"><span>최종 금액</span><button class="info" id="info4" type="button" aria-label="안내">!</button>
+      <div class="tip" id="tip4">도로와 지장물은 제외된 금액입니다.</div></div><b id="s3">0원</b></div>
     <div class="hero"><small id="perLabel">1인당 (3명)</small><div class="v" id="s4">0원</div></div>
   </div>
 </div>
@@ -146,6 +147,7 @@ function bindTip(b,t){b.onclick=function(e){e.stopPropagation();var on=t.classLi
 bindTip(document.getElementById('info'),document.getElementById('tip'));
 bindTip(document.getElementById('info2'),document.getElementById('tip2'));
 bindTip(document.getElementById('info3'),document.getElementById('tip3'));
+bindTip(document.getElementById('info4'),document.getElementById('tip4'));
 document.addEventListener('click',closeTips);
 document.getElementById('mMinus').onclick=function(){if(m>1){m=Math.round((m-0.1)*10)/10;calc()}};
 document.getElementById('mPlus').onclick=function(){if(m<3){m=Math.round((m+0.1)*10)/10;calc()}};
