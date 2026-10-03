@@ -76,6 +76,8 @@ select{width:108px;font-size:15px;padding:0 12px}
     <div class="person"><div class="ph"><span class="nm">Common</span><span class="rs" id="r4">0원</span></div>
       <div class="pr"><span class="u">평당</span><input class="pa" id="a4" type="text" inputmode="numeric" placeholder="금액" value="4,462,810"><span class="u">원</span><span class="x">×</span><input class="py" id="p4" type="number" inputmode="decimal" placeholder="평수" value="171"><span class="u">평</span></div></div>
 
+    <div class="set"><label for="gr">지가상승률</label>
+      <div class="ctl"><input id="gr" type="number" inputmode="decimal" value="12"><span class="u">%</span></div></div>
     <div class="set"><label>배수</label>
       <div class="step"><button id="mMinus" type="button">−</button><b id="mv">2</b><button id="mPlus" type="button">+</button></div></div>
     <div class="total"><span>보상 원금</span><b id="is">0원</b></div>
@@ -109,9 +111,10 @@ function calc(){
     sum+=v;
   });
   var t=parseFloat(document.getElementById('tax').value)||0;
-  var base=sum*m, tax=base*t/100, total=base-tax;
+  var g=parseFloat(document.getElementById('gr').value)||0;
+  var base=sum*(1+g/100)*m, tax=base*t/100, total=base-tax;
   document.getElementById('is').textContent=f(base);
-  document.getElementById('mLabel').textContent='보상 원금'+(m!==1?' (×'+m+')':'');
+  document.getElementById('mLabel').textContent='보상 원금'+((g!==0||m!==1)?' ('+(g!==0?'+'+g+'%'+(m!==1?', ':''):'')+(m!==1?'×'+m:'')+')':'');
   document.getElementById('s1').textContent=f(base);
   document.getElementById('taxLabel').textContent='양도소득세 ('+t+'%)';
   document.getElementById('s2').textContent=(tax>0?'-':'')+f(tax);
