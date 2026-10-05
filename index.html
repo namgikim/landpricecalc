@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
 <meta charset="utf-8">
@@ -69,22 +70,22 @@ select{width:108px;font-size:15px;padding:0 12px}
     <div class="hd"><h2>금액 입력</h2><button class="info" id="info" type="button" aria-label="안내">!</button>
       <div class="tip" id="tip">2024년 기준의 공시지가 금액을 입력합니다. (국토교통부 고시일 : 2024년 2월 7일)</div></div>
 
-    <div class="person"><div class="ph"><span class="nm">Gi</span><span class="rs" id="r1">0원</span></div>
-      <div class="pr"><span class="u">평당</span><input class="pa" id="a1" type="text" inputmode="numeric" placeholder="금액" value="3,629,752"><span class="u">원</span><span class="x">×</span><input class="py" id="p1" type="number" inputmode="decimal" placeholder="평수" value="273"><span class="u">평</span></div></div>
-    <div class="person"><div class="ph"><span class="nm">Eun</span><span class="rs" id="r2">0원</span></div>
-      <div class="pr"><span class="u">평당</span><input class="pa" id="a2" type="text" inputmode="numeric" placeholder="금액" value="3,457,851"><span class="u">원</span><span class="x">×</span><input class="py" id="p2" type="number" inputmode="decimal" placeholder="평수" value="268"><span class="u">평</span></div></div>
-    <div class="person"><div class="ph"><span class="nm">Hae</span><span class="rs" id="r3">0원</span></div>
-      <div class="pr"><span class="u">평당</span><input class="pa" id="a3" type="text" inputmode="numeric" placeholder="금액" value="3,629,752"><span class="u">원</span><span class="x">×</span><input class="py" id="p3" type="number" inputmode="decimal" placeholder="평수" value="271"><span class="u">평</span></div></div>
-    <div class="person"><div class="ph"><span class="nm">공동</span><span class="rs" id="r4">0원</span></div>
-      <div class="pr"><span class="u">평당</span><input class="pa" id="a4" type="text" inputmode="numeric" placeholder="금액" value="4,462,810"><span class="u">원</span><span class="x">×</span><input class="py" id="p4" type="number" inputmode="decimal" placeholder="평수" value="171"><span class="u">평</span></div></div>
+```
+<div class="person"><div class="ph"><span class="nm">Gi</span><span class="rs" id="r1">0원</span></div>
+  <div class="pr"><span class="u">평당</span><input class="pa" id="a1" type="text" inputmode="numeric" placeholder="금액" value="3,629,752"><span class="u">원</span><span class="x">×</span><input class="py" id="p1" type="number" inputmode="decimal" placeholder="평수" value="273"><span class="u">평</span></div></div>
+<div class="person"><div class="ph"><span class="nm">Eun</span><span class="rs" id="r2">0원</span></div>
+  <div class="pr"><span class="u">평당</span><input class="pa" id="a2" type="text" inputmode="numeric" placeholder="금액" value="3,457,851"><span class="u">원</span><span class="x">×</span><input class="py" id="p2" type="number" inputmode="decimal" placeholder="평수" value="268"><span class="u">평</span></div></div>
+<div class="person"><div class="ph"><span class="nm">Hae</span><span class="rs" id="r3">0원</span></div>
+  <div class="pr"><span class="u">평당</span><input class="pa" id="a3" type="text" inputmode="numeric" placeholder="금액" value="3,629,752"><span class="u">원</span><span class="x">×</span><input class="py" id="p3" type="number" inputmode="decimal" placeholder="평수" value="271"><span class="u">평</span></div></div>
+<div class="person"><div class="ph"><span class="nm">공동</span><span class="rs" id="r4">0원</span></div>
+  <div class="pr"><span class="u">평당</span><input class="pa" id="a4" type="text" inputmode="numeric" placeholder="금액" value="4,462,810"><span class="u">원</span><span class="x">×</span><input class="py" id="p4" type="number" inputmode="decimal" placeholder="평수" value="171"><span class="u">평</span></div></div>
 
-    <div class="set"><div class="lb"><label for="gr">지가상승률</label><button class="info" id="info2" type="button" aria-label="안내">!</button>
-        <div class="tip" id="tip2">2024년부터 올해까지 공시지가 상승률입니다.</div></div>
-      <div class="ctl"><input id="gr" type="number" inputmode="decimal" value="0"><span class="u">%</span></div></div>
-    <div class="set"><div class="lb"><label>보상 배율</label><button class="info" id="info3" type="button" aria-label="안내">!</button>
-        <div class="tip" id="tip3">공시지가에 실거래가를 반영한 배수입니다.</div></div>
-      <div class="step"><button id="mMinus" type="button">−</button><b id="mv">1.8</b><button id="mPlus" type="button">+</button></div></div>
-    <div class="total"><span>보상 원금</span><b id="is">0원</b></div>
+<div class="set"><div class="lb"><label>보상 배율</label><button class="info" id="info3" type="button" aria-label="안내">!</button>
+    <div class="tip" id="tip3">공시지가에 실거래가를 반영한 배수입니다.</div></div>
+  <div class="step"><button id="mMinus" type="button">−</button><b id="mv">1.8</b><button id="mPlus" type="button">+</button></div></div>
+<div class="total"><span>보상 원금</span><b id="is">0원</b></div>
+```
+
   </div>
 
   <div class="card">
@@ -116,10 +117,9 @@ function calc(){
     sum+=v;
   });
   var t=parseFloat(document.getElementById('tax').value)||0;
-  var g=parseFloat(document.getElementById('gr').value)||0;
-  var base=sum*(1+g/100)*m, tax=base*t/100, total=base-tax;
+  var base=sum*m, tax=base*t/100, total=base-tax;
   document.getElementById('is').textContent=f(base);
-  document.getElementById('mLabel').textContent='보상 원금'+((g!==0||m!==1)?' ('+(g!==0?'+'+g+'%'+(m!==1?', ':''):'')+(m!==1?'×'+m:'')+')':'');
+  document.getElementById('mLabel').textContent='보상 원금'+(m!==1?' (×'+m+')':'');
   document.getElementById('s1').textContent=f(base);
   document.getElementById('taxLabel').textContent='양도소득세 ('+t+'%)';
   document.getElementById('s2').textContent=(tax>0?'-':'')+f(tax);
@@ -145,7 +145,6 @@ document.getElementById('plus').onclick=function(){if(n<3){n++;calc()}};
 function closeTips(){document.querySelectorAll('.tip').forEach(function(t){t.classList.remove('on')})}
 function bindTip(b,t){b.onclick=function(e){e.stopPropagation();var on=t.classList.contains('on');closeTips();if(!on)t.classList.add('on')}}
 bindTip(document.getElementById('info'),document.getElementById('tip'));
-bindTip(document.getElementById('info2'),document.getElementById('tip2'));
 bindTip(document.getElementById('info3'),document.getElementById('tip3'));
 bindTip(document.getElementById('info4'),document.getElementById('tip4'));
 document.addEventListener('click',closeTips);
